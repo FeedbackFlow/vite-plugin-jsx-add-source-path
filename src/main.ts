@@ -18,6 +18,7 @@ export function vitePluginJsxAddSourcePath(config: Config): Plugin {
         const errorMessage = `${PLUGIN_NAME}: Please provide '${CONFIG_REPO_NAME}' in the configuration object: ${FUNCTION_NAME}({ ${CONFIG_REPO_NAME}: '<directory>' })`
         throw new Error(errorMessage);
     }
+    const actualAttributeName = config.attribute || ATTRIBUTE_NAME
     return {
         name: PLUGIN_NAME,
         enforce: 'pre',
@@ -35,7 +36,7 @@ export function vitePluginJsxAddSourcePath(config: Config): Plugin {
                     JSXOpeningElement(path) {
                         const existingProp = path.node.attributes.find(
                             // @ts-ignore
-                            node => node.name && node.name.name === ATTRIBUTE_NAME
+                            node => node.name && node.name.name === actualAttributeName
                         )
                         if (existingProp) return
                         const line = path.node.loc?.start.line
@@ -46,7 +47,7 @@ export function vitePluginJsxAddSourcePath(config: Config): Plugin {
                         path.node.attributes.push(
                             {
                                 type: 'JSXAttribute',
-                                name: {type: 'JSXIdentifier', name: ATTRIBUTE_NAME},
+                                name: {type: 'JSXIdentifier', name: actualAttributeName},
                                 value: {type: 'StringLiteral', value: `${srcPath}:${line}:${column + 1}`}
                             }
                         );
