@@ -1,7 +1,7 @@
 {
   "name": "vite-plugin-jsx-add-source-path",
   "private": false,
-  "version": "0.0.3",
+  "version": "0.0.4",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -23,5 +23,6 @@
   "keywords": [
     "vite-plugin"
   ],
-  "main": "./dist/index.js"
+  "main": "./dist/index.js",
+  "files": ["./dist"]
 }
